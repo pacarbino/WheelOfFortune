@@ -1,0 +1,38 @@
+#rules:
+# rounds 1 and 2:
+
+# puzzle of letters presented:
+# 3 players
+# everyone starts with $0
+# player 1 turn:
+    # if player has money, choose to:
+        # spin 
+        # buy a vowel
+    # if player has NO money
+        # spins
+            # if "good" spin:
+                # guess consonant [i]
+                    # if [i] correct:
+                        # win $$*[i] instances in word
+                        # repeat spin until wrong guess or "bad" spin
+                        # or buy a vowel
+                        # or choose to solve
+                    # if incorrect:
+                        # player's turn ends
+            # if lose a turn:
+                # player loses a turn (makes no guesses)
+            # if bankrupt:
+                # player loses all money won in round
+                # player loses turn (makes no guesses)
+# player 2 spins and repeats process
+# player 3 spins and repeats process
+# round ends when someone solves the puzzle
+# ===========================================================================
+# round 3:
+
+# player picks a mystery prize
+# puzzle presented:
+# default free letters given [r,s,t,l,n,e]
+    # if letters above are in puzzle, they're shown in place
+
+    
