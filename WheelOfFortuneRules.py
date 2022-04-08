@@ -34,5 +34,10 @@
 # puzzle presented:
 # default free letters given [r,s,t,l,n,e]
     # if letters above are in puzzle, they're shown in place
+# player picks 3 more consonants and one more vowel
+    # if letters above are in puzzle, they're shown in place
+# player guesses puzzle (one chance)
+    # if right, player wins mystery prize
+    # if incorrect, player does not win mystery prize
 
     
