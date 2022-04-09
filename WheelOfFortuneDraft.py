@@ -11,7 +11,7 @@ import random
 f = open('EnglishWords.txt','rt')
 wordDump = f.read()
 wordList = wordDump.split()
-
+########################################################################################################
 ## create list of wheel spaces to choose from (19 spots, $100-$900 in $50 increments, plus lose a turn, plus bankrupt)
 wheelSpaces = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, "Lose A Turn", "Bankruptcy"]
 ## create blanks (gameboard) list
@@ -21,8 +21,9 @@ guessedLetters = []
 ## create vowels list:
 vowels = ["A","E","I","O","U"]
 
+########################################################################################################
 # 3 players
-# everyone starts with $0
+# everyone starts with $0 ##### FUNCTIONS CAN READ BANKS, BUT CAN'T SEEM TO ADD/SUBTRACT TO/FROM THEM
 ## create perm and temp bank for player 1
 permBank1 = 0
 tempBank1 = 0
@@ -33,9 +34,11 @@ tempBank2 = 0
 permBank3 = 0
 tempBank3 = 0
 
-##### TEST TEMP BANK
+##### TEST TEMP BANK #############
+
 tempBankX = 1000
 
+########################################################################################################
 ## create random word generator using word list
 def wordGenerator(): ###TESTED wordGenerator function works
     global word
@@ -47,8 +50,10 @@ def wordGenerator(): ###TESTED wordGenerator function works
     ## prints gameboard
     print(gameboard)
 
+########################################################################################################
 ## create random wheel spin generator from list
 def wheel():  ### TESTED, WORKING, EXCEPT for bank
+    global tempBankX
     global spin
     spin = random.choice(wheelSpaces)
     if type(spin) == int:
@@ -58,45 +63,62 @@ def wheel():  ### TESTED, WORKING, EXCEPT for bank
         print("Ohhhhh, I'm sorry... You've landed on 'Lose A Turn'.")
     elif spin == "Bankruptcy":
         print("Ooooooh, that stings... You've landed on 'Bankruptcy'...")
-        tempBankX = [0] ###figure out how to designate banks...
+        tempBankX = 0 ###figure out how to designate banks... (I THINK I FIGURED IT OUT IN THEORY... )
 
-
+########################################################################################################
+## create buy a vowel function:
 def buyVowel():
-    tempBankX - 250
+    global tempBankX
+    if tempBankX >= 250:
+        vowelChoice = input("Okay! What vowel would you like to buy?: ").upper()
+        if vowelChoice in vowels and vowelChoice in word:
+            tempBankX -= 250
+            guessedLetters.append(vowelChoice)
+            gameboard.append(vowelChoice) #### NEEDS TO BE SPECIFIED WHERE THIS IS A FILL IN FOR TESTING
+            print(f"Good guess! {vowelChoice} is in the puzzle!")
+            chooseTurn()
+        elif vowelChoice in vowels and vowelChoice not in word:
+            tempBankX -= 250
+            guessedLetters.append(vowelChoice)
+            print(f"Oooh, I'm sorry, {vowelChoice} is not in the puzzle...")
+        elif vowelChoice not in vowels:
+            print(f"Please pick a vowel! [A, E, I, O, U]")
+            buyVowel()
+        
 
-
-
-
-# choice of letter:
+########################################################################################################
+# create choice of letter (consonant) function:
 def chooseLetter(): ### TESTED chooseLetter function works
+    global tempBankX
+    print(f"This is the puzzle so far: {gameboard}")
+    print(f"These are the letters you've guessed: {guessedLetters}")
+    print(f"You have ${tempBankX} in the bank.")
     letterChoice = input("What letter would you like to guess?: ").upper()
     if letterChoice in word and letterChoice not in vowels and letterChoice not in guessedLetters:
         guessedLetters.append(letterChoice)
-        winnings = spin * word.count(letterChoice)
+        gameboard.append(letterChoice)
+        winnings = spin * word.count(letterChoice) #### NEEDS TO BE SPECIFIED WHERE THIS IS A FILL IN FOR TESTING
+        print(f"Good guess! {letterChoice} is in the puzzle!")
         print(f"You've just won ${winnings}!!!")
-        tempBankX + winnings
-        print(f"These are the letters you've guessed: {guessedLetters}")
-        print(f"This is the puzzle so far: {gameboard}")
-        print(f"You have ${tempBankX} in the bank.")
+        tempBankX += winnings ###### SORT OF WORKING!!! ADDED GLOBAL TEMPBANKX TO BEGINNING OF FUNCTION
         chooseTurn() ### TESTING ##############################################
     elif letterChoice in vowels:
         print("Excuse me, you have to pay for vowels! Please pick a consonant.")
-        print(f"These are the letters you've guessed: {guessedLetters}")
-        print(f"This is the puzzle so far: {gameboard}")
         chooseLetter()
     elif letterChoice in guessedLetters:
         print(f"{letterChoice} has already been guessed, please pick something else.")
-        print(f"These are the letters you've guessed: {guessedLetters}")
-        print(f"This is the puzzle so far: {gameboard}")
         chooseLetter()
     else:
-        print(f"I'm sorry, {letterChoice} is not in the word.") ###### this needs testing
+        print(f"I'm sorry, {letterChoice} is not in the puzzle...")
         guessedLetters.append(letterChoice)
         print(guessedLetters)
 
 ## create input prompts:
 ## choice of turn:
 def chooseTurn(): #### tested, function chooseTurn works
+    print(f"These are the letters you've guessed: {guessedLetters}")
+    print(f"This is the puzzle so far: {gameboard}")
+    print(f"You have ${tempBankX} in the bank.")
     turnChoice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]?:  ").upper()
     if turnChoice == "S":
         wheel() #### NOT WORKING!!! #######################
@@ -126,10 +148,11 @@ def chooseTurn(): #### tested, function chooseTurn works
 # print(spin)
 
 # chooseLetter()
-print("***FLAG***")
+print("***TEST FLAG***")
+print("Welcome to Wheel of Fortune! Let's play a game!")
 wordGenerator()
-print(f"{word} ***FLAG")
-wheel()
+print(f"THE TEST WORD IS {word} ***TEST FLAG***")
+chooseTurn()
 
 ################################################
 # puzzle of letters presented:
