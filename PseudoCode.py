@@ -209,3 +209,24 @@ def dumbfunction():
 
 # chooseTurn()
 dumbfunction()
+
+
+####### FUNCTION TO CHECK GUESS, WORD AND APPEND GAMEBOARD:
+def checkAndAppend(puzzleWord,guess,correctGuesses):
+    for place in range(len(x)):
+        if puzzleWord[place] == guess:
+            print(place)
+            print(puzzleWord[place])
+            correctGuesses[place] = guess
+
+for place in range(len(wordArray)):
+    if wordArray[place] == guess:
+        print(place)
+        print(wordArray[place])
+        correctGuesses[place] = guess
+
+print(wordArray)
+print(correctGuesses)
+
+print(wordArray)
+print(correctGuesses)

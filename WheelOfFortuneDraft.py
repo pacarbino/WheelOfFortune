@@ -39,7 +39,16 @@ tempBank3 = 0
 tempBankX = 1000
 
 ########################################################################################################
-## create random word generator using word list
+## create board checker function:
+def boardChecker(puzzleWord,guess,correctGuesses):  ### TESTED boardChecker function works
+    for place in range(len(puzzleWord)):
+        if puzzleWord[place] == guess:
+            print(place) #TEST PRINT
+            print(puzzleWord[place]) # TEST PRINT
+            correctGuesses[place] = guess
+
+########################################################################################################
+## create random word generator using word list:
 def wordGenerator(): ###TESTED wordGenerator function works
     global word
     ## creates word to be guessed
@@ -52,7 +61,7 @@ def wordGenerator(): ###TESTED wordGenerator function works
 
 ########################################################################################################
 ## create random wheel spin generator from list
-def wheel():  ### TESTED, WORKING, EXCEPT for bank
+def wheel():  ### TESTED, WORKING, EXCEPT for bank     #### FIX GLOBAL FUNCTIONS, ADD PARAMETERS INSTEAD!!!
     global tempBankX
     global spin
     spin = random.choice(wheelSpaces)
@@ -74,7 +83,8 @@ def buyVowel():
         if vowelChoice in vowels and vowelChoice in word:
             tempBankX -= 250
             guessedLetters.append(vowelChoice)
-            gameboard.append(vowelChoice) #### NEEDS TO BE SPECIFIED WHERE THIS IS A FILL IN FOR TESTING
+            ##gameboard.append(vowelChoice) #### NEEDS TO BE SPECIFIED WHERE THIS IS A FILL IN FOR TESTING
+            boardChecker(word,vowelChoice,gameboard)  ##TEST
             print(f"Good guess! {vowelChoice} is in the puzzle!")
             chooseTurn()
         elif vowelChoice in vowels and vowelChoice not in word:
@@ -96,8 +106,8 @@ def chooseLetter(): ### TESTED chooseLetter function works
     letterChoice = input("What letter would you like to guess?: ").upper()
     if letterChoice in word and letterChoice not in vowels and letterChoice not in guessedLetters:
         guessedLetters.append(letterChoice)
-        gameboard.append(letterChoice)
-        winnings = spin * word.count(letterChoice) #### NEEDS TO BE SPECIFIED WHERE THIS IS A FILL IN FOR TESTING
+        boardChecker(word,letterChoice,gameboard)
+        winnings = spin * word.count(letterChoice) 
         print(f"Good guess! {letterChoice} is in the puzzle!")
         print(f"You've just won ${winnings}!!!")
         tempBankX += winnings ###### SORT OF WORKING!!! ADDED GLOBAL TEMPBANKX TO BEGINNING OF FUNCTION

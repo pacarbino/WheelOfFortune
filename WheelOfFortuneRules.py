@@ -8,7 +8,9 @@
     # if player has money, choose to:
         # spin 
         # buy a vowel
+        # solve puzzle
     # if player has NO money
+        # solve puzzle
         # spins
             # if "good" spin:
                 # guess consonant [i]
