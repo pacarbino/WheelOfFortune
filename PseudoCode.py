@@ -118,4 +118,57 @@
     # if right, player wins mystery prize
     # if incorrect, player does not win mystery prize
 
-    
+#=======================================================================================================================
+# scratchpad
+import random
+f = open('EnglishWords.txt','rt')
+wordDump = f.read()
+wordList = wordDump.split()
+
+## create list of wheel spaces to choose from (19 spots, not 24. 100-900 in $50 increments, plus lose a turn, plus bankrupt)
+wheelSpaces = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, "Lose A Turn", "Bankruptcy"]
+## create blanks (gameboard) list
+gameboard = []
+## create letters guessed list
+guessedLetters = []
+
+## create vowels list:
+vowels = ["A","E","I","O","U"]
+
+
+def wordGenerator():
+    global word
+    ## creates word to be guessed
+    word = random.choice(wordList).upper()
+    ## appends blanks (gameboard) list
+    for letter in word:
+        gameboard.append("_")
+    ## prints gameboard
+    print(gameboard)
+
+    ## create random wheel space generator from list
+def wheel():
+    global spin
+    spin = random.choice(wheelSpaces)
+
+def chooseLetter():
+    letterChoice = input("What letter would you like to guess?: ").upper()
+    if letterChoice in word and letterChoice not in vowels and letterChoice not in guessedLetters:
+        guessedLetters.append(letterChoice)
+        win = spin * word.count(letterChoice)
+        print(win)
+    elif letterChoice in vowels:
+        print("Excuse me, you have to pay for vowels! Please pick a consonant.")
+        chooseLetter()
+    elif letterChoice in guessedLetters:
+        print(f"{letterChoice} has already been guessed, please pick something else.")
+        chooseLetter()
+
+
+wordGenerator()
+wheel()
+
+print(word)
+print(spin)
+
+chooseLetter()

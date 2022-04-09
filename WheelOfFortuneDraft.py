@@ -17,6 +17,8 @@ wheelSpaces = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 
 gameboard = []
 ## create letters guessed list
 guessedLetters = []
+## create vowels list:
+vowels = ["A","E","I","O","U"]
 
 # 3 players
 # everyone starts with $0
@@ -31,7 +33,7 @@ permBank3 = []
 tempBank3 = []
 
 ## create random word generator using word list
-def wordGenerator():
+def wordGenerator(): ###TESTED wordGenerator function works
     global word
     ## creates word to be guessed
     word = random.choice(wordList).upper()
@@ -42,7 +44,7 @@ def wordGenerator():
     print(gameboard)
 
 ## create random wheel space generator from list
-def wheel():
+def wheel(): ### TESTED wheel function works
     global spin
     spin = random.choice(wheelSpaces)
 ###TEST CALL/PRINT********
@@ -50,28 +52,37 @@ def wheel():
 # print(spin)
 
 # choice of letter:
-def chooseLetter():
-    choice = input("What letter would you like to guess?: ").upper()
-    if choice in word:
-        spin*## NEED TO COUNT NUMBER OF OCCURANCES IN WORD*********
+def chooseLetter(): ### TESTED chooseLetter function works
+    letterChoice = input("What letter would you like to guess?: ").upper()
+    if letterChoice in word and letterChoice not in vowels and letterChoice not in guessedLetters:
+        guessedLetters.append(letterChoice)
+        win = spin * word.count(letterChoice)
+        print(win)
+    elif letterChoice in vowels:
+        print("Excuse me, you have to pay for vowels! Please pick a consonant.")
+        chooseLetter()
+    elif letterChoice in guessedLetters:
+        print(f"{letterChoice} has already been guessed, please pick something else.")
+        chooseLetter()
 
 ## create function for spinWheel:
 def spinWheel():
     wheel()
     if spin == int:
-        chooseLetter()
+        chooseLetter() ### NEEDS TO BE FINISHED
+
 
 
 ## create input prompts:
 ## choice of turn:
-def chooseTurn():
-    choice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]?:  ").upper()
-    if choice == "S":
+def chooseTurn(): #### tested, function chooseTurn works
+    turnChoice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]?:  ").upper()
+    if turnChoice == "S":
         spinWheel()
-    elif choice == "V":
-        print("buyVowel()") ## NEEDS TO BE MADE
-    elif choice == "P":
-        print("solvePuzzle()")
+    elif turnChoice == "V":
+        buyVowel() ## NEEDS TO BE MADE
+    elif turnChoice == "P":
+        solvePuzzle() ## NEEDS TO BE MADE
     else:
         print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]")
         chooseTurn()
