@@ -5,6 +5,7 @@
 # rounds 1 and 2:
 
 ## create list of words to choose from (CSV file not necessary. text file accepltable)
+from operator import countOf
 import random
 f = open('EnglishWords.txt','rt')
 wordDump = f.read()
@@ -16,42 +17,77 @@ wheelSpaces = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 
 gameboard = []
 ## create letters guessed list
 guessedLetters = []
-## create perm bank for player 1
+
+# 3 players
+# everyone starts with $0
+## create perm and temp bank for player 1
 permBank1 = []
-## create perm bank for player 2
+tempBank1 = []
+## create perm and temp bank for player 2
 permBank2 = []
-## create perm bank for player 3
+tempBank2 = []
+## create perm and temp bank for player 3
 permBank3 = []
+tempBank3 = []
 
 ## create random word generator using word list
 def wordGenerator():
-    global word 
+    global word
+    ## creates word to be guessed
     word = random.choice(wordList).upper()
+    ## appends blanks (gameboard) list
     for letter in word:
         gameboard.append("_")
+    ## prints gameboard
     print(gameboard)
-wordGenerator()
-###TEST PRINT********
-print(word)###NOT Working...
-print(gameboard) ##WORKING!!
-    ## creates word to be guessed
-    ## appends blanks (gameboard) list
+
 ## create random wheel space generator from list
 def wheel():
     global spin
     spin = random.choice(wheelSpaces)
-    
-wheel()
-print(spin)
-# puzzle of letters presented:
-    ## call random word generator
-wordGenerator()
-    ## print display of word in blanks (gameboard)  list
+###TEST CALL/PRINT********
+# wheel()
+# print(spin)
 
-# 3 players
-# everyone starts with $0
+# choice of letter:
+def chooseLetter():
+    choice = input("What letter would you like to guess?: ").upper()
+    if choice in word:
+        spin*## NEED TO COUNT NUMBER OF OCCURANCES IN WORD*********
+
+## create function for spinWheel:
+def spinWheel():
+    wheel()
+    if spin == int:
+        chooseLetter()
+
+
+## create input prompts:
+## choice of turn:
+def chooseTurn():
+    choice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]?:  ").upper()
+    if choice == "S":
+        spinWheel()
+    elif choice == "V":
+        print("buyVowel()") ## NEEDS TO BE MADE
+    elif choice == "P":
+        print("solvePuzzle()")
+    else:
+        print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]")
+        chooseTurn()
+
+
+
+# puzzle of letters presented:
+## call random word generator &
+## print display of word in blanks (gameboard) list
+wordGenerator()
+
+## create conditions for while loop to operate
+puzzleSolved = False
 
 ## while loop:
+#while puzzleSolved == False:
     ## play below until someone solves the puzzle 
     # player 1 turn:
         # if player has money, choose to: 
