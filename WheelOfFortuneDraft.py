@@ -4,6 +4,7 @@
 # rules:
 # rounds 1 and 2:
 
+########################################################################################################
 ## create list of words to choose from (CSV file not necessary. text file accepltable)
 # from operator import countOf
 import random
@@ -11,6 +12,8 @@ import random
 f = open('EnglishWords.txt','rt')
 wordDump = f.read()
 wordList = wordDump.split()
+
+
 ########################################################################################################
 ## create list of wheel spaces to choose from (19 spots, $100-$900 in $50 increments, plus lose a turn, plus bankrupt)
 wheelSpaces = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, "Lose A Turn", "Bankruptcy"]
@@ -20,6 +23,7 @@ gameboard = []
 guessedLetters = []
 ## create vowels list:
 vowels = ["A","E","I","O","U"]
+
 
 ########################################################################################################
 # 3 players
@@ -47,6 +51,7 @@ def boardChecker(puzzleWord,guess,correctGuesses):  ### TESTED boardChecker func
             print(puzzleWord[place]) # TEST PRINT
             correctGuesses[place] = guess
 
+
 ########################################################################################################
 ## create random word generator using word list:
 def wordGenerator(): ###TESTED wordGenerator function works
@@ -59,9 +64,10 @@ def wordGenerator(): ###TESTED wordGenerator function works
     ## prints gameboard
     print(gameboard)
 
+
 ########################################################################################################
-## create random wheel spin generator from list
-def wheel():  ### TESTED, WORKING, EXCEPT for bank     #### FIX GLOBAL FUNCTIONS, ADD PARAMETERS INSTEAD!!!
+## create random wheel spin generator from list:
+def wheel():  ### TESTED, WORKING, EXCEPT for bank     #### FIX GLOBAL FUNCTIONS, ADD PARAMETERS INSTEAD?!!!
     global tempBankX
     global spin
     spin = random.choice(wheelSpaces)
@@ -74,6 +80,18 @@ def wheel():  ### TESTED, WORKING, EXCEPT for bank     #### FIX GLOBAL FUNCTIONS
         print("Ooooooh, that stings... You've landed on 'Bankruptcy'...")
         tempBankX = 0 ###figure out how to designate banks... (I THINK I FIGURED IT OUT IN THEORY... )
 
+
+########################################################################################################
+## create solve function:
+def solvePuzzle():
+    global word
+    solution = input("Okay, what do you think the answet to the puzzle is?: ").upper()
+    if solution == word:
+        print(f"YES! the answer was {word}!! Congratulations, you've won thwe round!!")
+    elif solution != word:
+        print(f"Unfortunately, no, {solution}")
+
+
 ########################################################################################################
 ## create buy a vowel function:
 def buyVowel():
@@ -83,7 +101,6 @@ def buyVowel():
         if vowelChoice in vowels and vowelChoice in word:
             tempBankX -= 250
             guessedLetters.append(vowelChoice)
-            ##gameboard.append(vowelChoice) #### NEEDS TO BE SPECIFIED WHERE THIS IS A FILL IN FOR TESTING
             boardChecker(word,vowelChoice,gameboard)  ##TEST
             print(f"Good guess! {vowelChoice} is in the puzzle!")
             chooseTurn()
@@ -122,6 +139,9 @@ def chooseLetter(): ### TESTED chooseLetter function works
         print(f"I'm sorry, {letterChoice} is not in the puzzle...")
         guessedLetters.append(letterChoice)
         print(guessedLetters)
+        
+########################################################################################################
+
 
 ## create input prompts:
 ## choice of turn:
@@ -129,15 +149,15 @@ def chooseTurn(): #### tested, function chooseTurn works
     print(f"These are the letters you've guessed: {guessedLetters}")
     print(f"This is the puzzle so far: {gameboard}")
     print(f"You have ${tempBankX} in the bank.")
-    turnChoice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]?:  ").upper()
+    turnChoice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [SOLVE]?:  ").upper()
     if turnChoice == "S":
-        wheel() #### NOT WORKING!!! #######################
+        wheel() 
     elif turnChoice == "V":
-        buyVowel() ## NEEDS TO BE MADE
-    elif turnChoice == "P":
-        solvePuzzle() ## NEEDS TO BE MADE
+        buyVowel() 
+    elif turnChoice == "SOLVE":
+        solvePuzzle()
     else:
-        print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]")
+        print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [SOLVE]")
         chooseTurn()
 
 ## create function for spinWheel:  UNECESSARY???? JUST USE WHEEL???
