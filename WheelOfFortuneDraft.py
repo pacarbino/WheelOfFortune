@@ -7,11 +7,12 @@
 ## create list of words to choose from (CSV file not necessary. text file accepltable)
 from operator import countOf
 import random
+from tkinter import E
 f = open('EnglishWords.txt','rt')
 wordDump = f.read()
 wordList = wordDump.split()
 
-## create list of wheel spaces to choose from (19 spots, not 24. 100-900 in $50 increments, plus lose a turn, plus bankrupt)
+## create list of wheel spaces to choose from (19 spots, $100-$900 in $50 increments, plus lose a turn, plus bankrupt)
 wheelSpaces = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, "Lose A Turn", "Bankruptcy"]
 ## create blanks (gameboard) list
 gameboard = []
@@ -47,9 +48,6 @@ def wordGenerator(): ###TESTED wordGenerator function works
 def wheel(): ### TESTED wheel function works
     global spin
     spin = random.choice(wheelSpaces)
-###TEST CALL/PRINT********
-# wheel()
-# print(spin)
 
 # choice of letter:
 def chooseLetter(): ### TESTED chooseLetter function works
@@ -58,12 +56,15 @@ def chooseLetter(): ### TESTED chooseLetter function works
         guessedLetters.append(letterChoice)
         win = spin * word.count(letterChoice)
         print(win)
+        chooseTurn() ### TESTING ##############################################
     elif letterChoice in vowels:
         print("Excuse me, you have to pay for vowels! Please pick a consonant.")
         chooseLetter()
     elif letterChoice in guessedLetters:
         print(f"{letterChoice} has already been guessed, please pick something else.")
         chooseLetter()
+    else:
+        print(f"I'm sorry, {letterChoice} is not in the word.") ###### this needs testing
 
 ## create function for spinWheel:
 def spinWheel():
@@ -71,14 +72,12 @@ def spinWheel():
     if spin == int:
         chooseLetter() ### NEEDS TO BE FINISHED
 
-
-
 ## create input prompts:
 ## choice of turn:
 def chooseTurn(): #### tested, function chooseTurn works
     turnChoice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]?:  ").upper()
     if turnChoice == "S":
-        spinWheel()
+        spinWheel() #### NOT WORKING!!! #######################
     elif turnChoice == "V":
         buyVowel() ## NEEDS TO BE MADE
     elif turnChoice == "P":
@@ -87,12 +86,19 @@ def chooseTurn(): #### tested, function chooseTurn works
         print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]")
         chooseTurn()
 
+######## TEST OF FUNCTIONS #####################
+wordGenerator()
+wheel()
 
+print(word)
+print(spin)
 
+chooseLetter()
+################################################
 # puzzle of letters presented:
 ## call random word generator &
 ## print display of word in blanks (gameboard) list
-wordGenerator()
+# wordGenerator()
 
 ## create conditions for while loop to operate
 puzzleSolved = False
