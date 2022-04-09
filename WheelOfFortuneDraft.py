@@ -5,9 +5,9 @@
 # rounds 1 and 2:
 
 ## create list of words to choose from (CSV file not necessary. text file accepltable)
-from operator import countOf
+# from operator import countOf
 import random
-from tkinter import E
+# from tkinter import E
 f = open('EnglishWords.txt','rt')
 wordDump = f.read()
 wordList = wordDump.split()
@@ -24,14 +24,17 @@ vowels = ["A","E","I","O","U"]
 # 3 players
 # everyone starts with $0
 ## create perm and temp bank for player 1
-permBank1 = []
-tempBank1 = []
+permBank1 = 0
+tempBank1 = 0
 ## create perm and temp bank for player 2
-permBank2 = []
-tempBank2 = []
+permBank2 = 0
+tempBank2 = 0
 ## create perm and temp bank for player 3
-permBank3 = []
-tempBank3 = []
+permBank3 = 0
+tempBank3 = 0
+
+##### TEST TEMP BANK
+tempBankX = 1000
 
 ## create random word generator using word list
 def wordGenerator(): ###TESTED wordGenerator function works
@@ -44,40 +47,59 @@ def wordGenerator(): ###TESTED wordGenerator function works
     ## prints gameboard
     print(gameboard)
 
-## create random wheel space generator from list
-def wheel(): ### TESTED wheel function works
+## create random wheel spin generator from list
+def wheel():  ### TESTED, WORKING, EXCEPT for bank
     global spin
     spin = random.choice(wheelSpaces)
+    if type(spin) == int:
+        print(f"The wheel has landed on ${spin}!")
+        chooseLetter() 
+    elif spin == "Lose A Turn":
+        print("Ohhhhh, I'm sorry... You've landed on 'Lose A Turn'.")
+    elif spin == "Bankruptcy":
+        print("Ooooooh, that stings... You've landed on 'Bankruptcy'...")
+        tempBankX = [0] ###figure out how to designate banks...
+
+
+def buyVowel():
+    tempBankX - 250
+
+
+
 
 # choice of letter:
 def chooseLetter(): ### TESTED chooseLetter function works
     letterChoice = input("What letter would you like to guess?: ").upper()
     if letterChoice in word and letterChoice not in vowels and letterChoice not in guessedLetters:
         guessedLetters.append(letterChoice)
-        win = spin * word.count(letterChoice)
-        print(win)
+        winnings = spin * word.count(letterChoice)
+        print(f"You've just won ${winnings}!!!")
+        tempBankX + winnings
+        print(f"These are the letters you've guessed: {guessedLetters}")
+        print(f"This is the puzzle so far: {gameboard}")
+        print(f"You have ${tempBankX} in the bank.")
         chooseTurn() ### TESTING ##############################################
     elif letterChoice in vowels:
         print("Excuse me, you have to pay for vowels! Please pick a consonant.")
+        print(f"These are the letters you've guessed: {guessedLetters}")
+        print(f"This is the puzzle so far: {gameboard}")
         chooseLetter()
     elif letterChoice in guessedLetters:
         print(f"{letterChoice} has already been guessed, please pick something else.")
+        print(f"These are the letters you've guessed: {guessedLetters}")
+        print(f"This is the puzzle so far: {gameboard}")
         chooseLetter()
     else:
         print(f"I'm sorry, {letterChoice} is not in the word.") ###### this needs testing
-
-## create function for spinWheel:
-def spinWheel():
-    wheel()
-    if spin == int:
-        chooseLetter() ### NEEDS TO BE FINISHED
+        guessedLetters.append(letterChoice)
+        print(guessedLetters)
 
 ## create input prompts:
 ## choice of turn:
 def chooseTurn(): #### tested, function chooseTurn works
     turnChoice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]?:  ").upper()
     if turnChoice == "S":
-        spinWheel() #### NOT WORKING!!! #######################
+        wheel() #### NOT WORKING!!! #######################
     elif turnChoice == "V":
         buyVowel() ## NEEDS TO BE MADE
     elif turnChoice == "P":
@@ -86,14 +108,29 @@ def chooseTurn(): #### tested, function chooseTurn works
         print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]")
         chooseTurn()
 
+## create function for spinWheel:  UNECESSARY???? JUST USE WHEEL???
+# def spinWheel(): ######### NOT WORKING ########################
+#     wheel()
+#     if spin == int:
+#         chooseLetter() 
+#     elif spin == "Lose A Turn":
+#         print("Ohhhhh, I'm sorry... You've landed on 'Lose A Turn'.")
+#     elif spin == "Bankruptcy":
+#         print("Ooooooh, that stings... You've landed on 'Bankruptcy'...")
+#         tempBankX = [0] ###figure out how to designate banks...
 ######## TEST OF FUNCTIONS #####################
+# wordGenerator()
+# wheel()
+
+# print(word)
+# print(spin)
+
+# chooseLetter()
+print("***FLAG***")
 wordGenerator()
+print(f"{word} ***FLAG")
 wheel()
 
-print(word)
-print(spin)
-
-chooseLetter()
 ################################################
 # puzzle of letters presented:
 ## call random word generator &

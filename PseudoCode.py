@@ -146,29 +146,66 @@ def wordGenerator():
     ## prints gameboard
     print(gameboard)
 
-    ## create random wheel space generator from list
+# create random wheel space generator from list
 def wheel():
     global spin
     spin = random.choice(wheelSpaces)
+    if type(spin) == int:
+        print(f"The wheel has landed on ${spin}!")
+        chooseLetter() 
+    elif spin == "Lose A Turn":
+        print("Ohhhhh, I'm sorry... You've landed on 'Lose A Turn'.")
+    elif spin == "Bankruptcy":
+        print("Ooooooh, that stings... You've landed on 'Bankruptcy'...")
+        tempBankX = [0] ###figure out how to designate banks...
 
-def chooseLetter():
+def chooseTurn(): #### tested, function chooseTurn works
+    print(f"These are the letters you've guessed: {guessedLetters}")
+    print(f"This is the puzzle so far: {gameboard}")
+    turnChoice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]?:  ").upper()
+    if turnChoice == "S":
+        print("Okay, give the wheel a spin!!")
+        wheel() #### NOT WORKING!!! #######################
+        chooseLetter() ########### TEST!!! REMOVE LATER #############
+        print("FLAG!!!!")
+    elif turnChoice == "V":
+        buyVowel() ## NEEDS TO BE MADE
+    elif turnChoice == "P":
+        solvePuzzle() ## NEEDS TO BE MADE
+    else:
+        print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [P]")
+        chooseTurn()
+
+def chooseLetter(): ### TESTED chooseLetter function works
     letterChoice = input("What letter would you like to guess?: ").upper()
     if letterChoice in word and letterChoice not in vowels and letterChoice not in guessedLetters:
         guessedLetters.append(letterChoice)
         win = spin * word.count(letterChoice)
         print(win)
+        print(f"These are the letters you've guessed: {guessedLetters}")
+        print(f"This is the puzzle so far: {gameboard}")
+        chooseTurn() ### TESTING ##############################################
     elif letterChoice in vowels:
         print("Excuse me, you have to pay for vowels! Please pick a consonant.")
+        print(f"These are the letters you've guessed: {guessedLetters}")
+        print(f"This is the puzzle so far: {gameboard}")
         chooseLetter()
     elif letterChoice in guessedLetters:
         print(f"{letterChoice} has already been guessed, please pick something else.")
+        print(f"These are the letters you've guessed: {guessedLetters}")
+        print(f"This is the puzzle so far: {gameboard}")
         chooseLetter()
+    else:
+        print(f"I'm sorry, {letterChoice} is not in the word.") ###### this needs testing
+        guessedLetters.append(letterChoice)
+        print(guessedLetters)
 
-
-wordGenerator()
+# wordGenerator()
 wheel()
+# print(word)
+# print(spin)
+def dumbfunction():
+    print("I'm a dumb function")
 
-print(word)
-print(spin)
-
-chooseLetter()
+# chooseTurn()
+dumbfunction()
