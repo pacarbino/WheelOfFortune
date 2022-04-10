@@ -121,10 +121,10 @@ tempBank2 = 2
 permBank3 = 0
 tempBank3 = 3
 
-##### TEST TEMP BANK #############
+##### TEST TEMP AND PERM BANK #############
 
-tempBankX = 1000
-permBankX = 0
+# tempBankX = 1000
+# permBankX = 0
 
 ########################################################################################################
 ## create board checker function:
@@ -151,13 +151,14 @@ def wordGenerator(): ###TESTED wordGenerator function works
 
 ########################################################################################################
 ## create random wheel spin generator from list:
-def wheel():  ### TESTED, WORKING, EXCEPT for bank     #### FIX GLOBAL FUNCTIONS, ADD PARAMETERS INSTEAD?!!!
-    global tempBankX
-    global spin
+def wheel(tempBankX, permBankX):  ### TESTED, WORKING, EXCEPT for bank     #### FIX GLOBAL FUNCTIONS, ADD PARAMETERS INSTEAD?!!!
+    ##tempBankX  ### COMMENT OUT FOR TESTING took off global
+    ##permBankX
+    global spin ##took off global
     spin = random.choice(wheelSpaces)
     if type(spin) == int:
         print(f"The wheel has landed on ${spin}!")
-        chooseLetter() 
+        chooseLetter(tempBankX, permBankX) 
     elif spin == "Lose A Turn":
         print("Ohhhhh, I'm sorry... You've landed on 'Lose A Turn'.")
     elif spin == "Bankruptcy":
@@ -167,10 +168,10 @@ def wheel():  ### TESTED, WORKING, EXCEPT for bank     #### FIX GLOBAL FUNCTIONS
 
 ########################################################################################################
 ## create solve function:
-def solvePuzzle():
+def solvePuzzle(tempBankX, permBankX):
     global puzzleSolved
     global word
-    global permBankX
+    ##global permBankX ##COMMENT OUT GLOBAL
     solution = input("Okay, what do you think the answet to the puzzle is?: ").upper()
     if solution == word:
         print(f"YES! You did it! The answer was {word}!! Congratulations, you've won the round!!")
@@ -184,10 +185,10 @@ def solvePuzzle():
 
 ########################################################################################################
 ## create buy a vowel function:
-def buyVowel():
-    global tempBankX
+def buyVowel(tempBankX, permBankX):
+    ##global tempBankX ##COMMENT OUT GLOBAL
+
     global puzzleSolved
-    # global tempBankX
     if tempBankX >= 250:
         vowelChoice = input("Okay! What vowel would you like to buy?: ").upper()
         if vowelChoice in vowels and vowelChoice in word:
@@ -200,21 +201,25 @@ def buyVowel():
                 print(f"You've just won a total of ${tempBankX}!!!")
                 puzzleSolved = True
             elif gameboard != list(word):
-                chooseTurn()
+                chooseTurn(tempBankX, permBankX)
         elif vowelChoice in vowels and vowelChoice not in word:
             tempBankX -= 250
             guessedLetters.append(vowelChoice)
             print(f"Oooh, I'm sorry, {vowelChoice} is not in the puzzle...")
         elif vowelChoice not in vowels:
             print(f"Please pick a vowel! [A, E, I, O, U]")
-            buyVowel()
+            buyVowel(tempBankX, permBankX)
+    elif tempBankX < 250:
+        print("I'm sorry, you must have at least $250 to buy a vowel. Please pick eitherSpin the Wheel [S], or Solve the Puzzle [SOLVE]")
+        chooseTurn(tempBankX, permBankX)
         
 
 ########################################################################################################
 # create choice of letter (consonant) function:
-def chooseLetter(): ### TESTED chooseLetter function works
+def chooseLetter(tempBankX, permBankX): ### TESTED chooseLetter function works
+    tempBankX
     global puzzleSolved
-    global tempBankX
+    # global tempBankX
     # print(f"This is the puzzle so far: {gameboard}")
     # print(f"These are the letters you've guessed: {guessedLetters}")
     # print(f"You have ${tempBankX} in the bank.")
@@ -231,13 +236,13 @@ def chooseLetter(): ### TESTED chooseLetter function works
             print(f"You've just won a total of ${tempBankX}!!!")
             puzzleSolved = True
         elif gameboard != list(word):
-            chooseTurn()### TESTING ##############################################
+            chooseTurn(tempBankX, permBankX)### TESTING ##############################################
     elif letterChoice in vowels:
         print("Excuse me, you have to pay for vowels! Please pick a consonant.")
-        chooseLetter()
+        chooseLetter(tempBankX, permBankX)
     elif letterChoice in guessedLetters:
         print(f"{letterChoice} has already been guessed, please pick something else.")
-        chooseLetter()
+        chooseLetter(tempBankX, permBankX)
     else:
         print(f"I'm sorry, {letterChoice} is not in the puzzle...")
         guessedLetters.append(letterChoice)
@@ -248,20 +253,20 @@ def chooseLetter(): ### TESTED chooseLetter function works
 
 ## create input prompts:
 ## choice of turn:
-def chooseTurn(): #### tested, function chooseTurn works
+def chooseTurn(tempBankX, permBankX): #### tested, function chooseTurn works
     print(f"These are the letters that have been guessed: {guessedLetters}")
     print(f"This is the gameboard so far: {gameboard}")
     print(f"You have ${tempBankX} in the bank.")
     turnChoice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [SOLVE]?:  ").upper()
     if turnChoice == "S":
-        wheel() 
+        wheel(tempBankX, permBankX) 
     elif turnChoice == "V":
-        buyVowel() 
+        buyVowel(tempBankX, permBankX) 
     elif turnChoice == "SOLVE":
-        solvePuzzle()
+        solvePuzzle(tempBankX, permBankX)
     else:
         print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [SOLVE]")
-        chooseTurn()
+        chooseTurn(tempBankX, permBankX)
 
 ########################################################################################################
 
@@ -275,124 +280,10 @@ print(word) ###TEST
 
 while puzzleSolved == False:
 
-    chooseTurn()
-    print(permBankX)  ### TEST!!!
+    chooseTurn(tempBank1, permBank1)
+    print(permBank1)  ### TEST!!!
 
-    # chooseTurn()
+    chooseTurn(tempBank2, permBank2)
 
-    # chooseTurn()
+    chooseTurn(tempBank3, permBank3)
 
-
-######## TEST OF FUNCTIONS #####################
-# wordGenerator()
-# wheel()
-
-# print(word)
-# print(spin)
-
-# chooseLetter()
-# print("***TEST FLAG***")
-# print("Welcome to Wheel of Fortune! Let's play a game!")
-# wordGenerator()
-# print(f"THE TEST WORD IS {word} ***TEST FLAG***")
-# chooseTurn()
-
-################################################
-# puzzle of letters presented:
-## call random word generator &
-## print display of word in blanks (gameboard) list
-# wordGenerator()
-
-
-
-## while loop:
-#while puzzleSolved == False:
-    ## play below until someone solves the puzzle 
-    # player 1 turn:
-        # if player has money, choose to: 
-            ## ask for user input regarding choice
-                ## assign each choice a function/path
-            ## create "bankEmpty" to check if bank has money or not
-                ## if bank = 0:
-                    ## spin
-                    ## solve
-                #if bank > 0:
-                    ## spin
-                    ## buy a vowel
-                    ## solve 
-
-            # 1) spin 
-                ## call random wheel space generator
-                    ## "spin" = result of function call above
-                    ## if spin = prize:
-                        ## ask for user input regarding letter choice
-                        ## check to see if letter is in guessed letters list:
-                            ## if yes:
-                                ## guess again (repeat get input)
-                            ## if no: 
-                                ## check to see if letter is in puzzle:
-                                    ## if yes:
-                                        ## player bank + prize*[number of occurances of letter in word]
-                                        ## append words guessed list
-                                        ## append blanks (gameboard) list
-                                        ## get input regarding whether player wnats to:
-                                            ## spin
-                                            ## buy a vowel
-                                            ## solve
-                                    ## if no: 
-                                        ## append letters guessed list
-                                        ## player's turn ends (move to next player)
-
-            # 2) buy a vowel
-                ## player bank - 250
-                ## ask for user input regarding what vowel they would like to pick
-                    ## check to see if letter is in puzzle:
-                        ## if yes:
-                            ## append words guessed list
-                            ## append blanks (gameboard) list
-                            ## get input regarding whether player wnats to:
-                                ## spin
-                                ## buy a vowel
-                                ## solve
-                        ## else: 
-                            ## append letters guessed list
-                            ## player's turn ends (move to next player)
-
-            # 3) solve puzzle
-                ## get user input regarding guess:
-                    ## if guess == word:
-                        ## round over!!!
-                            ## players' banks for round stay intact
-                            ## move onto round 2 or 3
-
-        # else if player has NO money
-            # solve (see above "code")
-            # spin (see above "code")
-                
-    # player 2 repeats process
-    # player 3 repeats process
-    # round ends when someone solves the puzzle 
-# ===========================================================================
-# round 3:
-
-# player picks a mystery prize
-## call random mystery prize generator
-
-# puzzle presented:
-## call random word generator
-## 
-
-# default free letters given [r,s,t,l,n,e]
-    # if letters above are in puzzle, they're shown in place
-    ## append blanks (gameboard) list)
-
-# player picks 3 more consonants and one more vowel
-## get player input regarding choices
-    # if letters above are in puzzle, they're shown in place
-    ## append blanks (gameboard) list)
-
-# player guesses puzzle (one chance)
-## get player input regarding choice
-## check to see if input (guess) == word
-    # if right, player wins mystery prize
-    # if incorrect, player does not win mystery prize
