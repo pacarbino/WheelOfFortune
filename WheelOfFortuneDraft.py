@@ -86,7 +86,7 @@ def rules():
     """)
 
 ########################################################################################################
-## create list of words to choose from (CSV file not necessary. text file accepltable)
+## create list of words to choose from
 # from operator import countOf
 import random
 # from tkinter import E
@@ -113,17 +113,18 @@ vowels = ["A","E","I","O","U"]
 # everyone starts with $0 ##### FUNCTIONS CAN READ BANKS, BUT CAN'T SEEM TO ADD/SUBTRACT TO/FROM THEM
 ## create perm and temp bank for player 1
 permBank1 = 0
-tempBank1 = 0
+tempBank1 = 1  #### TEST, FIX LATER
 ## create perm and temp bank for player 2
 permBank2 = 0
-tempBank2 = 0
+tempBank2 = 2
 ## create perm and temp bank for player 3
 permBank3 = 0
-tempBank3 = 0
+tempBank3 = 3
 
 ##### TEST TEMP BANK #############
 
 tempBankX = 1000
+permBankX = 0
 
 ########################################################################################################
 ## create board checker function:
@@ -169,10 +170,12 @@ def wheel():  ### TESTED, WORKING, EXCEPT for bank     #### FIX GLOBAL FUNCTIONS
 def solvePuzzle():
     global puzzleSolved
     global word
+    global permBankX
     solution = input("Okay, what do you think the answet to the puzzle is?: ").upper()
     if solution == word:
         print(f"YES! You did it! The answer was {word}!! Congratulations, you've won the round!!")
         print(f"You've just won a total of ${tempBankX}!!!")
+        permBankX += tempBankX
         puzzleSolved = True
     elif solution != word:
         print(f"Unfortunately, no, {solution} is not the answer.")
@@ -182,8 +185,9 @@ def solvePuzzle():
 ########################################################################################################
 ## create buy a vowel function:
 def buyVowel():
-    global puzzleSolved
     global tempBankX
+    global puzzleSolved
+    # global tempBankX
     if tempBankX >= 250:
         vowelChoice = input("Okay! What vowel would you like to buy?: ").upper()
         if vowelChoice in vowels and vowelChoice in word:
@@ -245,8 +249,8 @@ def chooseLetter(): ### TESTED chooseLetter function works
 ## create input prompts:
 ## choice of turn:
 def chooseTurn(): #### tested, function chooseTurn works
-    print(f"These are the letters you've guessed: {guessedLetters}")
-    print(f"This is the puzzle so far: {gameboard}")
+    print(f"These are the letters that have been guessed: {guessedLetters}")
+    print(f"This is the gameboard so far: {gameboard}")
     print(f"You have ${tempBankX} in the bank.")
     turnChoice = input("Okay! What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [SOLVE]?:  ").upper()
     if turnChoice == "S":
@@ -259,6 +263,26 @@ def chooseTurn(): #### tested, function chooseTurn works
         print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [SOLVE]")
         chooseTurn()
 
+########################################################################################################
+
+## Begin Game!
+## create conditions for while loop to operate
+puzzleSolved = False
+roundCounter = 1 ### NEEDS MORE TO IT
+rules()
+wordGenerator()
+print(word) ###TEST
+
+while puzzleSolved == False:
+
+    chooseTurn()
+    print(permBankX)
+
+    # chooseTurn()
+
+    # chooseTurn()
+
+
 ######## TEST OF FUNCTIONS #####################
 # wordGenerator()
 # wheel()
@@ -267,11 +291,11 @@ def chooseTurn(): #### tested, function chooseTurn works
 # print(spin)
 
 # chooseLetter()
-print("***TEST FLAG***")
-print("Welcome to Wheel of Fortune! Let's play a game!")
-wordGenerator()
-print(f"THE TEST WORD IS {word} ***TEST FLAG***")
-chooseTurn()
+# print("***TEST FLAG***")
+# print("Welcome to Wheel of Fortune! Let's play a game!")
+# wordGenerator()
+# print(f"THE TEST WORD IS {word} ***TEST FLAG***")
+# chooseTurn()
 
 ################################################
 # puzzle of letters presented:
@@ -279,8 +303,7 @@ chooseTurn()
 ## print display of word in blanks (gameboard) list
 # wordGenerator()
 
-## create conditions for while loop to operate
-puzzleSolved = False
+
 
 ## while loop:
 #while puzzleSolved == False:
