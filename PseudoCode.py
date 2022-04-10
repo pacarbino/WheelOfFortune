@@ -219,14 +219,17 @@ def checkAndAppend(puzzleWord,guess,correctGuesses):
             print(puzzleWord[place])
             correctGuesses[place] = guess
 
-for place in range(len(wordArray)):
-    if wordArray[place] == guess:
-        print(place)
-        print(wordArray[place])
-        correctGuesses[place] = guess
+# for place in range(len(wordArray)):
+#     if wordArray[place] == guess:
+#         print(place)
+#         print(wordArray[place])
+#         correctGuesses[place] = guess
 
-print(wordArray)
-print(correctGuesses)
+# print(wordArray)
+# print(correctGuesses)
 
-print(wordArray)
-print(correctGuesses)
+# print(wordArray)
+# print(correctGuesses)
+print(gameboard)
+print(list(word))
+

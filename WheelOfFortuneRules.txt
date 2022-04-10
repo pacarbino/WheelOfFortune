@@ -1,0 +1,78 @@
+*******************************************************************************
+    Welcome to Wheel of Fortune! 
+    For those of you who have never played, 
+    we're going to go over the rules of the game!
+    
+    A puzzle will be presented to you as a series of blanks an a gameboard.
+    These blanks represent letters in a word that you have to guess.
+
+    You have three choices of moves to make at the start of your turn:
+        
+        1) Spin the wheel! 
+        
+        If the wheel lands on a dollar amount,
+        you can then try to guess one of the consonants in the word.
+
+        If the letter you guess is in the word, the blanks on the gameboard
+        will be replaced by the letter, and you will recieve the dollar amount 
+        which your spin landed on multiplied times the number of times the 
+        letter appears in the word. Your turn continues, and you are once again
+        able to choose what you'd like to do next.
+        
+        If the letter is NOT in the word, you recieve no money for that spin. 
+        Your turn is over, and the next player's turn begins.
+        
+        If the wheel lands on 'Lose A Turn', your turn immediately ends,
+        and the next player's turn begins..
+        
+        If the wheel lands on 'Bankruptcy', you lose all the money in 
+        your bank for that round, your turn ends, and the next player's turn begins..
+        
+        2) Buy a vowel! 
+        
+        If you have at least $250 in your current bank, you may choose
+        to buy a vowel that you think might be in the puzzle.
+
+        If you are right, the blanks in the gameboard are replaced by
+        the vowel you've chosen, your turn continues, and you may once again
+        choose which move you'd like to make next. 
+        
+        If you are wrong, your turn ends. 
+
+        Either way, $250 is deducted from your bank for that round.
+        
+        3) Solve the puzzle!
+        
+        If you think you know what the word is, you may choose to 
+        solve the puzzle. You guess a word, and if you are right, the
+        puzzle is solved and all the money you've won from that round
+        is transfered to your permanent bank.
+        
+        If you guess incorrectly, your turn ends, and the next player's turn begins.
+        
+    This cycle continues moving from player 1 to 2 to 3 and then back to plyer 1 until
+    the puzzle is solved. After 2 rounds, the player with the most money in their
+    permanent bank goes on to the bonus round 3.
+
+    In round 3, the player is once again presented with a puzzle on gameboard.
+    however, in this round, there is no spinning the wheel. Instead, 
+    the default letters 'R, S, T, L, N, E' will be checked against the 
+    puzzle and the gameboard will change to show where any of those letters
+    are if they are in the puzzle.
+
+    Next the player will select 3 more consonants and 1 more vowel.
+    These letters will then be checked against the puzzle and revealed
+    in the same manner as the letters above. 
+
+    Player will then have 1 guess to try and solve the puzzle.
+
+    If they guess correctly, they win the bonus prize of $25,000
+    on top of all the money they won from the previous rounds.
+
+    If they guess incorrectly, they still get to keep the money from the previous rounds,
+    however they will not get the additional $25,000 prize.
+
+    So, who's ready to play...
+
+    Wheel!  Of!  Fortune!!!!!
+    *******************************************************************************

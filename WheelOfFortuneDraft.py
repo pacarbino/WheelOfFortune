@@ -3,6 +3,87 @@
 
 # rules:
 # rounds 1 and 2:
+def rules():
+    print("""
+    *******************************************************************************
+    Welcome to Wheel of Fortune! 
+    For those of you who have never played, 
+    we're going to go over the rules of the game!
+    
+    A puzzle will be presented to you as a series of blanks an a gameboard.
+    These blanks represent letters in a word that you have to guess.
+
+    You have three choices of moves to make at the start of your turn:
+        
+        1) Spin the wheel! 
+        
+        If the wheel lands on a dollar amount,
+        you can then try to guess one of the consonants in the word.
+
+        If the letter you guess is in the word, the blanks on the gameboard
+        will be replaced by the letter, and you will recieve the dollar amount 
+        which your spin landed on multiplied times the number of times the 
+        letter appears in the word. Your turn continues, and you are once again
+        able to choose what you'd like to do next.
+        
+        If the letter is NOT in the word, you recieve no money for that spin. 
+        Your turn is over, and the next player's turn begins.
+        
+        If the wheel lands on 'Lose A Turn', your turn immediately ends,
+        and the next player's turn begins..
+        
+        If the wheel lands on 'Bankruptcy', you lose all the money in 
+        your bank for that round, your turn ends, and the next player's turn begins..
+        
+        2) Buy a vowel! 
+        
+        If you have at least $250 in your current bank, you may choose
+        to buy a vowel that you think might be in the puzzle.
+
+        If you are right, the blanks in the gameboard are replaced by
+        the vowel you've chosen, your turn continues, and you may once again
+        choose which move you'd like to make next. 
+        
+        If you are wrong, your turn ends. 
+
+        Either way, $250 is deducted from your bank for that round.
+        
+        3) Solve the puzzle!
+        
+        If you think you know what the word is, you may choose to 
+        solve the puzzle. You guess a word, and if you are right, the
+        puzzle is solved and all the money you've won from that round
+        is transfered to your permanent bank.
+        
+        If you guess incorrectly, your turn ends, and the next player's turn begins.
+        
+    This cycle continues moving from player 1 to 2 to 3 and then back to plyer 1 until
+    the puzzle is solved. After 2 rounds, the player with the most money in their
+    permanent bank goes on to the bonus round 3.
+
+    In round 3, the player is once again presented with a puzzle on gameboard.
+    however, in this round, there is no spinning the wheel. Instead, 
+    the default letters 'R, S, T, L, N, E' will be checked against the 
+    puzzle and the gameboard will change to show where any of those letters
+    are if they are in the puzzle.
+
+    Next the player will select 3 more consonants and 1 more vowel.
+    These letters will then be checked against the puzzle and revealed
+    in the same manner as the letters above. 
+
+    Player will then have 1 guess to try and solve the puzzle.
+
+    If they guess correctly, they win the bonus prize of $25,000
+    on top of all the money they won from the previous rounds.
+
+    If they guess incorrectly, they still get to keep the money from the previous rounds,
+    however they will not get the additional $25,000 prize.
+
+    So, who's ready to play...
+
+    Wheel!  Of!  Fortune!!!!!
+    *******************************************************************************
+    """)
 
 ########################################################################################################
 ## create list of words to choose from (CSV file not necessary. text file accepltable)
@@ -21,6 +102,8 @@ wheelSpaces = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 
 gameboard = []
 ## create letters guessed list
 guessedLetters = []
+## create words guessed list:
+guessedWords = []
 ## create vowels list:
 vowels = ["A","E","I","O","U"]
 
@@ -47,8 +130,8 @@ tempBankX = 1000
 def boardChecker(puzzleWord,guess,correctGuesses):  ### TESTED boardChecker function works
     for place in range(len(puzzleWord)):
         if puzzleWord[place] == guess:
-            print(place) #TEST PRINT
-            print(puzzleWord[place]) # TEST PRINT
+            # print(place) #TEST PRINT
+            # print(puzzleWord[place]) # TEST PRINT
             correctGuesses[place] = guess
 
 
@@ -84,17 +167,22 @@ def wheel():  ### TESTED, WORKING, EXCEPT for bank     #### FIX GLOBAL FUNCTIONS
 ########################################################################################################
 ## create solve function:
 def solvePuzzle():
+    global puzzleSolved
     global word
     solution = input("Okay, what do you think the answet to the puzzle is?: ").upper()
     if solution == word:
-        print(f"YES! the answer was {word}!! Congratulations, you've won thwe round!!")
+        print(f"YES! You did it! The answer was {word}!! Congratulations, you've won the round!!")
+        print(f"You've just won a total of ${tempBankX}!!!")
+        puzzleSolved = True
     elif solution != word:
-        print(f"Unfortunately, no, {solution}")
+        print(f"Unfortunately, no, {solution} is not the answer.")
+        guessedWords.append(solution)
 
 
 ########################################################################################################
 ## create buy a vowel function:
 def buyVowel():
+    global puzzleSolved
     global tempBankX
     if tempBankX >= 250:
         vowelChoice = input("Okay! What vowel would you like to buy?: ").upper()
@@ -103,7 +191,12 @@ def buyVowel():
             guessedLetters.append(vowelChoice)
             boardChecker(word,vowelChoice,gameboard)  ##TEST
             print(f"Good guess! {vowelChoice} is in the puzzle!")
-            chooseTurn()
+            if gameboard == list(word):
+                print(f"YES! You did it! The answer was {word}!! Congratulations, you've won the round!!")
+                print(f"You've just won a total of ${tempBankX}!!!")
+                puzzleSolved = True
+            elif gameboard != list(word):
+                chooseTurn()
         elif vowelChoice in vowels and vowelChoice not in word:
             tempBankX -= 250
             guessedLetters.append(vowelChoice)
@@ -116,10 +209,11 @@ def buyVowel():
 ########################################################################################################
 # create choice of letter (consonant) function:
 def chooseLetter(): ### TESTED chooseLetter function works
+    global puzzleSolved
     global tempBankX
-    print(f"This is the puzzle so far: {gameboard}")
-    print(f"These are the letters you've guessed: {guessedLetters}")
-    print(f"You have ${tempBankX} in the bank.")
+    # print(f"This is the puzzle so far: {gameboard}")
+    # print(f"These are the letters you've guessed: {guessedLetters}")
+    # print(f"You have ${tempBankX} in the bank.")
     letterChoice = input("What letter would you like to guess?: ").upper()
     if letterChoice in word and letterChoice not in vowels and letterChoice not in guessedLetters:
         guessedLetters.append(letterChoice)
@@ -128,7 +222,12 @@ def chooseLetter(): ### TESTED chooseLetter function works
         print(f"Good guess! {letterChoice} is in the puzzle!")
         print(f"You've just won ${winnings}!!!")
         tempBankX += winnings ###### SORT OF WORKING!!! ADDED GLOBAL TEMPBANKX TO BEGINNING OF FUNCTION
-        chooseTurn() ### TESTING ##############################################
+        if gameboard == list(word):
+            print(f"YES! You did it! The answer was {word}!! Congratulations, you've won the round!!")
+            print(f"You've just won a total of ${tempBankX}!!!")
+            puzzleSolved = True
+        elif gameboard != list(word):
+            chooseTurn()### TESTING ##############################################
     elif letterChoice in vowels:
         print("Excuse me, you have to pay for vowels! Please pick a consonant.")
         chooseLetter()
@@ -139,7 +238,7 @@ def chooseLetter(): ### TESTED chooseLetter function works
         print(f"I'm sorry, {letterChoice} is not in the puzzle...")
         guessedLetters.append(letterChoice)
         print(guessedLetters)
-        
+
 ########################################################################################################
 
 
@@ -160,16 +259,6 @@ def chooseTurn(): #### tested, function chooseTurn works
         print("Please pick either Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [SOLVE]")
         chooseTurn()
 
-## create function for spinWheel:  UNECESSARY???? JUST USE WHEEL???
-# def spinWheel(): ######### NOT WORKING ########################
-#     wheel()
-#     if spin == int:
-#         chooseLetter() 
-#     elif spin == "Lose A Turn":
-#         print("Ohhhhh, I'm sorry... You've landed on 'Lose A Turn'.")
-#     elif spin == "Bankruptcy":
-#         print("Ooooooh, that stings... You've landed on 'Bankruptcy'...")
-#         tempBankX = [0] ###figure out how to designate banks...
 ######## TEST OF FUNCTIONS #####################
 # wordGenerator()
 # wheel()
