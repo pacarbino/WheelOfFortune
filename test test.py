@@ -1,5 +1,5 @@
-# = rules
-## = pseudocode
+## PHIL CARBINO
+## WHEEL OF FORTUNE
 
 # rules:
 # rounds 1 and 2:
@@ -185,6 +185,7 @@ def solvePuzzle(playerX, tempBankX, permBankX, puzzleSolved):
         puzzleSolved = True  ##### doesn't seem to be making puzzleSolved true... seems to work in chooseLetter and buyVowel...
         print(solution)#### TEST PRINT!!
         print(word) ### TEST PRINT!!!
+        print("FLAG")
     elif solution != word:
         print(f"Unfortunately, no, {solution} is not the answer.")
         guessedWords.append(solution)
@@ -215,10 +216,10 @@ def buyVowel(playerX, tempBankX, permBankX, puzzleSolved):
             print(f"Oooh, I'm sorry, {playerX}, {vowelChoice} is not in the puzzle...")
         elif vowelChoice not in vowels:
             print(f"Please pick a vowel! [A, E, I, O, U]")
-            buyVowel(playerX, tempBankX, permBankX)
+            buyVowel(playerX, tempBankX, permBankX, puzzleSolved)
     elif tempBankX < 250:
         print("I'm sorry, {playerX}you must have at least $250 to buy a vowel. Please pick eitherSpin the Wheel [S], or Solve the Puzzle [SOLVE]")
-        chooseTurn(playerX, tempBankX, permBankX)
+        chooseTurn(playerX, tempBankX, permBankX, puzzleSolved)
         
 
 ########################################################################################################
@@ -277,39 +278,140 @@ def chooseTurn(playerX, tempBankX, permBankX, puzzleSolved): #### tested, functi
 
 ########################################################################################################
 
+def round3():
+    print("""
+    Okay!, time for our bonus round! As a reminder, a puzzle will be presented. 
+    We will give you the letters R, S, T, L, N, E to start.
+    Then, if any of those letters are present, we will show you where they are placed.
+    You will then be given the opportunity to guess 3 more consonants, and 1 more vowel.
+    Then, if any of those letters are in the puzzle, we will show you where they are positioned.
+    You will have one chance to solve the puzzle. 
+    If you win, you get an extra $25,000.
+    If you lose, you still get to keep all your money from the previous rounds, but you will
+    not recieve the extra $25,000.
+
+    Here we go!
+    """)
+
+    wordGenerator()
+    print(word)
+    print(f"Your puzzle is: {gameboard}")
+    print("And now we will add in R, S, T, L, N, E...")
+    rstlne = "R"
+    boardChecker(word, rstlne, gameboard)
+    rstlne = "S"
+    boardChecker(word, rstlne, gameboard)
+    rstlne = "T"
+    boardChecker(word, rstlne, gameboard)    
+    rstlne = "L"
+    boardChecker(word, rstlne, gameboard)
+    rstlne = "N"
+    boardChecker(word, rstlne, gameboard)
+    rstlne = "E"
+    boardChecker(word, rstlne, gameboard)
+
+    print(f"And now your puzzle is: {gameboard}")
+
+    print("Now, can we please have your additional letters:")
+    consonant1 = input("Your first consonant please: ").upper()
+    boardChecker(word, consonant1, gameboard)
+    consonant2 = input("Your second: ").upper()
+    boardChecker(word, consonant2, gameboard)
+    consonant3 = input("Your third: ").upper()
+    boardChecker(word, consonant3, gameboard)
+    finalVowel = input("And a vowel: ").upper()
+    boardChecker(word, finalVowel, gameboard)
+
+    print(f"Okay, so, your final puzzle is now: {gameboard}")
+
+    print("You now have one guess to solve the puzzle. Good luck!")
+
+    def finalGuess(permBankX):
+        permBankX
+        guess = input("Okay, what do you think the answer to the puzzle is?: ").upper()
+        if guess == word:
+            print(f"YES! You did it! The answer was {word}!! Congratulations, you've won the bonus round!!")
+            print(f"You've just won $25,000!!!")
+            permBankX += 25000
+            print(f"You have won a total of ${permBankX}!!! Congratulations!!!")
+            print(guess)#### TEST PRINT!!
+            print(word) ### TEST PRINT!!!
+            print("FLAG")
+        elif guess != word:
+            print(f"Unfortunately, no, {guess} is not the answer... ")
+    finalGuess ()
+
+round3()
+
+
+
+
+
+
+
 ## Begin Game!
 ## create conditions for while loop to operate
-puzzleSolved = False
-roundCounter = 1 
-rules()
-##wordGenerator()
-##print(word) ###TEST
 
-while roundCounter <= 2:
-    puzzleSolved
-    print(f"Okay, Players! This is round {roundCounter}!")
-    wordGenerator()
-    print(f"Your puzzle is: {gameboard}")
-    print(word) ###TEST
+# roundCounter = 1 
+# rules()
+# ##wordGenerator()
+# ##print(word) ###TEST
+
+# while roundCounter <= 2:
+#     #puzzleSolved
+#     print(f"Okay, Players! This is round {roundCounter}!")
+#     wordGenerator()
+#     print(f"Your puzzle is: {gameboard}")
+#     print(word) ###TEST
 
 
-    while puzzleSolved == False:
+#     puzzleSolved = False
 
-        chooseTurn(player1, tempBank1, permBank1, puzzleSolved)  ##create player parameter for "playerX"
-        print(f"permbank: {permBank1}")  ### TEST!!!
-        print(f"tempbank: {tempBank1}")
+#     while puzzleSolved == False:
 
-        chooseTurn(player2, tempBank2, permBank2, puzzleSolved)
-        print(f"permbank: {permBank2}")  ### TEST!!!
-        print(f"tempbank: {tempBank1}")
+#         chooseTurn(player1, tempBank1, permBank1, puzzleSolved)  ##create player parameter for "playerX"
+#         print(f"permbank: {permBank1}")  ### TEST!!!
+#         print(f"tempbank: {tempBank1}")
 
-        chooseTurn(player3, tempBank3, permBank3, puzzleSolved)
-        print(f"permbank: {permBank3}")  ### TEST!!!
-        print(f"tempbank: {tempBank1}")
+#         chooseTurn(player2, tempBank2, permBank2, puzzleSolved)
+#         print(f"permbank: {permBank2}")  ### TEST!!!
+#         print(f"tempbank: {tempBank1}")
 
-        puzzleSolved = True
+#         chooseTurn(player3, tempBank3, permBank3, puzzleSolved)
+#         print(f"permbank: {permBank3}")  ### TEST!!!
+#         print(f"tempbank: {tempBank1}")
+
+#         puzzleSolved = True
         
-    roundCounter += 1
+#     roundCounter += 1
 
-## Call round 3
+# ## Call round 3
 # def round3():
+#     print("""
+#     Okay!, time for our bonus round! As a reminder, a puzzle will be presented. 
+#     We will give you the letters R, S, T, L, N, E to start.
+#     Then, if any of those letters are present, we will show you where they are placed.
+#     You will then be given the opportunity to guess 3 more consonants, and 1 more vowel.
+#     Then, if any of those letters are in the puzzle, we will show you where they are positioned.
+#     You will have one chance to solve the puzzle. 
+#     If you win, you get an extra $25,000.
+#     If you lose, you still get to keep all your money from the previous rounds, but you will
+#     not recieve the extra $25,000.
+
+#     Here we go!
+#     """)
+
+#     wordGenerator()
+#     print(f"Your puzzle is: {gameboard}")
+#     rstlne = "R"
+#     boardChecker(word, rstlne, gameboard)
+#     rstlne = "S"
+#     boardChecker(word, rstlne, gameboard)
+#     rstlne = "T"
+#     boardChecker(word, rstlne, gameboard)
+#     rstlne = "L"
+#     boardChecker(word, rstlne, gameboard)
+#     rstlne = "N"
+#     boardChecker(word, rstlne, gameboard)
+#     rstlne = "E"
+#     boardChecker(word, rstlne, gameboard)
