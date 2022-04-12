@@ -86,6 +86,10 @@ def rules():
     """)
 
 ########################################################################################################
+## imports used:
+# from operator import countOf ## uncomment if needed
+# from tkinter import E ## uncomment if needed
+
 ## create list of words to choose from
 import random
 f = open('EnglishWords.txt','rt')
