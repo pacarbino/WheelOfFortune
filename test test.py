@@ -112,15 +112,15 @@ vowels = ["A","E","I","O","U"]
 ## create perm and temp bank for player 1
 player1 = "Player 1"
 permBank1 = [0]
-tempBank1 = 0
+tempBank1 = [0]
 ## create perm and temp bank for player 2
 player2 = "Player 2"
 permBank2 = [0]
-tempBank2 = 0
+tempBank2 = [0]
 ## create perm and temp bank for player 3
 player3 = "Player 3"
 permBank3 = [0]
-tempBank3 = 0
+tempBank3 = [0]
 
 ##### TEST TEMP AND PERM BANK #############
 # tempBankX = 1000
@@ -161,7 +161,8 @@ def wheel(playerX, tempBankX, permBankX):  ###### TEST ps (stand in for puzzleSo
         print(f"Ohhhhh, {playerX}, I'm sorry... You've landed on 'Lose A Turn'. Your turn is over.")
     elif spin == "Bankruptcy":
         print(f"Ooooooh, {playerX} that stings... You've landed on 'Bankruptcy'... ")
-        tempBankX = 0 
+        tempBankX = [0]
+        print(sum(tempBankX))
 
 
 ########################################################################################################
@@ -171,9 +172,9 @@ def solvePuzzle(playerX, tempBankX, permBankX):  ###### TEST ps (stand in for pu
     if solution == word:
         global puzzleSolved
         print(f"YES! You did it! The answer was {word}!! Congratulations, {playerX}, you've won the round!!")
-        print(f"You've just won a total of ${tempBankX}!!!")
-        permBankX.append(tempBankX)
-        print(f"You now have a total of ${permBankX} in your permanent bank!")
+        print(f"You've just won a total of ${sum(tempBankX)}!!!")
+        permBankX.append(sum(tempBankX))
+        print(f"You now have a total of ${sum(permBankX)} in your permanent bank!")
         puzzleSolved = True
         print(f"solvePuzzle block puzzleSolved = {puzzleSolved}")  ##TEST
         return True
@@ -191,10 +192,10 @@ def solvePuzzle(playerX, tempBankX, permBankX):  ###### TEST ps (stand in for pu
 ## create buy a vowel function:
 def buyVowel(playerX, tempBankX, permBankX):
     # global puzzleSolved
-    if tempBankX >= 250:
+    if sum(tempBankX) >= 250:
         vowelChoice = input("Okay! What vowel would you like to buy?: ").upper()
         if vowelChoice in vowels and vowelChoice in word:
-            tempBankX -= 250
+            tempBankX.append(-250)
             guessedLetters.append(vowelChoice)
             boardChecker(word, vowelChoice, gameboard)  ##TEST
             print(f"Good guess! {vowelChoice} is in the puzzle!")
@@ -208,13 +209,13 @@ def buyVowel(playerX, tempBankX, permBankX):
             elif gameboard != list(word):
                 chooseTurn(playerX, tempBankX, permBankX)
         elif vowelChoice in vowels and vowelChoice not in word:
-            tempBankX -= 250
+            tempBankX.append(-250)
             guessedLetters.append(vowelChoice)
             print(f"Oooh, I'm sorry, {playerX}, {vowelChoice} is not in the puzzle...")
         elif vowelChoice not in vowels:
             print(f"Please pick a vowel! [A, E, I, O, U]")
             buyVowel(playerX, tempBankX, permBankX)
-    elif tempBankX < 250:
+    elif sum(tempBankX) < 250:
         print("I'm sorry, {playerX}you must have at least $250 to buy a vowel. Please pick eitherSpin the Wheel [S], or Solve the Puzzle [SOLVE]")
         chooseTurn(playerX, tempBankX, permBankX)
         
@@ -232,13 +233,13 @@ def chooseLetter(playerX, tempBankX, permBankX): ### TESTED chooseLetter functio
         winnings = spin * word.count(letterChoice) 
         print(f"Good guess! {letterChoice} is in the puzzle!")
         print(f"You've just won ${winnings}!!!")
-        tempBankX += winnings
+        tempBankX.append(winnings)
         if gameboard == list(word):
             global puzzleSolved
             print(f"YES! You did it, {playerX}! The answer was {word}!! Congratulations, you've won the round!!")
-            print(f"You've just won a total of ${tempBankX}!!!")
+            print(f"You've just won a total of ${sum(tempBankX)}!!!")
             permBankX.append(tempBankX)
-            print(f"You now have a total of ${permBankX} in your permanent bank!")
+            print(f"You now have a total of ${sum(permBankX)} in your permanent bank!")
             return True
         elif gameboard != list(word):
             chooseTurn(playerX, tempBankX, permBankX)
@@ -261,7 +262,7 @@ def chooseTurn(playerX, tempBankX, permBankX): #### tested, function chooseTurn 
     print(f"{playerX}, it is your turn!")
     print(f"These are the letters that have been guessed: {guessedLetters}")
     print(f"This is the gameboard so far: {gameboard}")
-    print(f"You have ${tempBankX} in the bank.")
+    print(f"You have ${sum(tempBankX)} in the bank.")
     turnChoice = input(f"Okay, {playerX}, What would you like to do? Spin the Wheel [S], Buy a Vowel [V], or Solve the Puzzle [SOLVE]?:  ").upper()
     if turnChoice == "S":
         wheel(playerX, tempBankX, permBankX) 
@@ -281,7 +282,7 @@ def chooseTurn(playerX, tempBankX, permBankX): #### tested, function chooseTurn 
 
 def round3(playerX, permBankX):
     print(f"""
-    Okay!, {playerX}time for our bonus round! As a reminder, a puzzle will be presented. 
+    Okay!, {playerX}, time for our bonus round! As a reminder, a puzzle will be presented. 
     We will give you the letters R, S, T, L, N, E to start.
     Then, if any of those letters are present, we will show you where they are placed.
     You will then be given the opportunity to guess 3 more consonants, and 1 more vowel.
@@ -332,8 +333,14 @@ def round3(playerX, permBankX):
 
     print("You now have one guess to solve the puzzle. Good luck!")
 
+    playerList= ["Player1", "Player2", "Player3"]
+    bankList = [permBank1, permBank2, permBank3]
+
+    # playerX = playerList["(need position of permBankX)"]
+    permBankX = max(bankList)
+
     def finalGuess(playerX, permBankX):
-        permBankX
+
         guess = input(f"Okay, {playerX}, what do you think the answer to the puzzle is?: ").upper()
         if guess == word:
             print(f"YES! You did it! The answer was {word}!! Congratulations, {playerX}, you've won the bonus round!!")
@@ -396,24 +403,25 @@ while roundCounter <= 2:
         chooseTurn(player1, tempBank1, permBank1)
         print(f"permbank: {permBank2}")  ### TEST!!!
         print(f"tempbank: {tempBank1}")
-        # print(f"puzzleSolved FLAG3!!! = {chooseTurn(player1, tempBank1, permBank1)}")
-
-
+        
 
         chooseTurn(player2, tempBank2, permBank2)
         print(f"permbank: {permBank2}")  ### TEST!!!
         print(f"tempbank: {tempBank1}")
-        print(f"puzzleSolved FLAG3!!! = {chooseTurn(player1, tempBank1, permBank1)}")
+        
 
         chooseTurn(player3, tempBank3, permBank3)
         print(f"permbank: {permBank3}")  ### TEST!!!
         print(f"tempbank: {tempBank1}")
 
-        # puzzlesolved = True
-        
-        ## puzzleSolved = True ### TEST WORKS HERE, BUT NOT IN OTHER FUNCTIONS...
     roundCounter += 1
     gameboard = []
     guessedLetters = []
 
-round3(player1, permBank1)### test permbank1
+playerList= ["Player1", "Player2", "Player3"]
+bankList = [permBank1, permBank2, permBank3]
+
+winner = playerList[0] #"(need position of permBankX)"
+maxBank = max(bankList)
+
+round3(winner, maxBank)### test permbank1
