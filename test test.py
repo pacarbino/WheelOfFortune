@@ -134,8 +134,6 @@ tempBank3 = [0]
 def boardChecker(puzzleWord, guess, correctGuesses):  ### TESTED boardChecker function works
     for place in range(len(puzzleWord)):
         if puzzleWord[place] == guess:
-            # print(place) ### TEST PRINT
-            # print(puzzleWord[place]) ### TEST PRINT
             correctGuesses[place] = guess
 
 
@@ -148,8 +146,6 @@ def wordGenerator(): ###TESTED wordGenerator function works
     ## appends blanks (gameboard) list
     for letter in word:
         gameboard.append("_")
-    ## prints gameboard
-    # print(gameboard)
 
 
 ########################################################################################################
@@ -179,15 +175,10 @@ def solvePuzzle(playerX, tempBankX, permBankX):
         permBankX.append(sum(tempBankX))
         print(f"You now have a total of ${sum(permBankX)} in your permanent bank!")
         puzzleSolved = True
-        ##print(f"solvePuzzle block puzzleSolved = {puzzleSolved}")  ##TEST
-        ##print(f"TEST!!{word}") ### TEST PRINT!!!
-        # print("FLAG") ### TEST PRINT!!!
     elif solution != word:
         print(f"Unfortunately, no, {solution} is not the answer.")
         guessedWords.append(solution)
-    # print(f"before return in solve puzzle {puzzleSolved}")
-    # return puzzleSolved
-  
+
 
 ########################################################################################################
 ## create buy a vowel function:
@@ -202,9 +193,9 @@ def buyVowel(playerX, tempBankX, permBankX):
             print(f"Good guess! {vowelChoice} is in the puzzle!")
             if gameboard == list(word):
                 print(f"YES! You did it! The answer was {word}!! Congratulations, you've won the round!!")
-                print(f"You've just won a total of ${tempBankX}!!!")
-                permBankX.append(tempBankX)
-                print(f"You now have a total of ${permBankX} in your permanent bank!")
+                print(f"You've just won a total of ${sum(tempBankX)}!!!")
+                permBankX.append(sum(tempBankX))
+                print(f"You now have a total of ${sum(permBankX)} in your permanent bank!")
                 puzzleSolved = True
             elif gameboard != list(word):
                 chooseTurn(playerX, tempBankX, permBankX)
@@ -235,7 +226,7 @@ def chooseLetter(playerX, tempBankX, permBankX): ### TESTED chooseLetter functio
         if gameboard == list(word):
             print(f"YES! You did it, {playerX}! The answer was {word}!! Congratulations, you've won the round!!")
             print(f"You've just won a total of ${sum(tempBankX)}!!!")
-            permBankX.append(tempBankX)
+            permBankX.append(sum(tempBankX))
             print(f"You now have a total of ${sum(permBankX)} in your permanent bank!")
             puzzleSolved = True
         elif gameboard != list(word):
@@ -255,7 +246,6 @@ def chooseLetter(playerX, tempBankX, permBankX): ### TESTED chooseLetter functio
 ## create input prompts:
 ## choice of turn:
 def chooseTurn(playerX, tempBankX, permBankX): #### tested, function chooseTurn works
-    #global puzzleSolved
     print("===================================================================================================")
     print(f"{playerX}, it is your turn!")
     print(f"These are the letters that have been guessed: {guessedLetters}")
@@ -411,4 +401,6 @@ bankList = [permBank1, permBank2, permBank3]
 
 maxBank = max(bankList)
 winner = playerList[bankList.index(maxBank)]
+print(f"""{winner}, you are the winner!! You currently have {sum(maxBank)} 
+and you'll be going to the bonus round for a chance to win an extra $25,000!!""")
 round3(winner, maxBank)
