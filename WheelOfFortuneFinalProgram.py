@@ -161,7 +161,7 @@ def wheel(playerX, tempBankX, permBankX):  ###### TEST ps (stand in for puzzleSo
     elif spin == "Bankruptcy":
         print(f"Ooooooh, {playerX} that stings... You've landed on 'Bankruptcy'... ")
         tempBankX.clear()
-        print(sum(tempBankX))
+        print(f"Your bank is down to ${sum(tempBankX)}")
 
 
 ########################################################################################################
@@ -283,7 +283,7 @@ def round3(playerX, permBankX):
     """)
 
     wordGenerator()
-    print(f"{word} FOR TESTING PURPOSES ONLY, NO CHEATING!!!") ## FOR TESTING
+    print(f" THE ANSWER IS '{word}' FOR TESTING PURPOSES ONLY, NO CHEATING!!!") ## FOR TESTING
     print(f"Your puzzle is: {gameboard}")
 
     print("And now we will add in R, S, T, L, N, E...")
@@ -360,28 +360,30 @@ while roundCounter <= 2:
     print("===================================================================================================")
     wordGenerator()
     print(f"Your puzzle is: {gameboard}")
-    print(f"{word} FOR TESTING PURPOSES ONLY, NO CHEATING!!!") ###TEST
+    print(f" THE ANSWER IS '{word}' FOR TESTING PURPOSES ONLY, NO CHEATING!!!") ## FOR TESTING
     print("===================================================================================================")
     # puzzleSolved
     puzzleSolved = False
     while puzzleSolved == False:
 
         chooseTurn(player1, tempBank1, permBank1)
-        print(f"permbank: {permBank1}")  ### TEST!!!
-        print(f"tempbank: {tempBank1}")
-        print(puzzleSolved)
+        # print(f"permbank: {permBank1}")  ### TEST!!!
+        # print(f"tempbank: {tempBank1}")  ### TEST!!!
+        # print(puzzleSolved)  ### TEST!!!
         if puzzleSolved == True:
             break
 
         chooseTurn(player2, tempBank2, permBank2)
-        print(f"permbank: {permBank2}")  ### TEST!!!
-        print(f"tempbank: {tempBank2}")
+        # print(f"permbank: {permBank2}")  ### TEST!!!
+        # print(f"tempbank: {tempBank2}")  ### TEST!!!
+        # print(puzzleSolved)  ### TEST!!!
         if puzzleSolved == True:
             break
         
         chooseTurn(player3, tempBank3, permBank3)
-        print(f"permbank: {permBank3}")  ### TEST!!!
-        print(f"tempbank: {tempBank3}")
+        # print(f"permbank: {permBank3}")  ### TEST!!!
+        # print(f"tempbank: {tempBank3}")  ### TEST!!!
+        # print(puzzleSolved)  ### TEST!!!
         if puzzleSolved == True:
             break
 
@@ -401,6 +403,6 @@ bankList = [permBank1, permBank2, permBank3]
 
 maxBank = max(bankList)
 winner = playerList[bankList.index(maxBank)]
-print(f"""{winner}, you are the winner!! You currently have {sum(maxBank)} 
+print(f"""{winner}, you are the winner!! You currently have ${sum(maxBank)} 
 and you'll be going to the bonus round for a chance to win an extra $25,000!!""")
 round3(winner, maxBank)
